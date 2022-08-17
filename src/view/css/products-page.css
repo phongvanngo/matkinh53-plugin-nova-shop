@@ -1,0 +1,139 @@
+.nova-products {
+    display: flex;
+    width:100%;
+    /*position: relative;*/
+    /*left: 50%;*/
+    /*right: 50%;*/
+    /*margin-left: -50vw;*/
+    /*margin-right: -50vw;*/
+    padding: 0px;
+    /*background: rgba(182, 178, 178, 0.15);*/
+}
+.nova-products .btn-clear-filter {
+    display:none;
+}
+
+.nova-products .btn-clear-filter.open {
+    width:100%;
+    margin:0px 0px 15px 0px;
+    padding: 2px 0px;
+    background:gainsboro;
+    transition: all ease 0.2s;
+    display:block
+}
+
+.nova-products .btn-clear-filter.open:hover {
+    background: #34a3bf;
+    color:white;
+}
+
+
+
+.nova-products .products-wrapper {
+    width: auto;
+}
+
+.nova-products .filter-wrapper {
+    padding: 5px 20px 10px 0px;
+    max-width: 300px;
+    min-width:300px;
+    /*border-right:1px solid gainsboro;*/
+    box-shadow: 4px 1px 12px 1px rgba(220, 220, 220, 0.42);
+
+}
+
+.nova-products .filter-box {
+    margin-bottom:5px;
+    padding-bottom:15px;
+    font-weight:normal;
+    border-bottom: 1px solid gainsboro;
+}
+
+.nova-products .filter-item {
+    display:flex;
+    align-items: center;
+    padding: 5px 10px;
+    font-weight:normal !important;
+    gap:10px;
+}
+
+.nova-products .filter-item img{
+    width: 45px;
+}
+
+.nova-products .filter-box-list {
+    display:none;
+}
+
+.nova-products .filter-box-list .filter-item:hover {
+    background: rgba(255, 166, 0, 0.09);
+}
+.nova-products .filter-box.open .filter-box-list{
+    display:block;
+}
+
+.nova-products .filter-box-title {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+}
+
+.nova-products .filter-box-title h3{
+    margin-bottom:0px;
+
+}
+
+.nova-products .filter-box .minus {
+    display:none;
+    font-weight:bold;
+    font-size: 25px;
+}
+
+.nova-products .filter-box .plus {
+    display:inline;
+    font-weight:bold;
+    font-size: 25px;
+}
+
+.nova-products .filter-box.open .minus {
+    display:inline;
+}
+
+.nova-products .filter-box.open .plus {
+    display:none;
+}
+
+.nova-products .active-filter-bar-wrapper {
+    max-width:300px;
+    position:relative;
+    display:flex;
+    flex-wrap: wrap;
+    column-gap:10px;
+
+}
+
+.nova-products .badge-wrapper {
+    padding: 1px 10px;
+    position:relative;
+    background: rgba(255, 165, 0, 0.51);
+    border-radius: 20px;
+    border: 1px solid darkorange;
+    color:black;
+    font-weight:normal;
+    display:flex;
+    align-items:center;
+    margin-bottom:10px;
+
+}
+.nova-products .active-fitler-name {
+margin-right:10px
+}
+.nova-products .badge-wrapper svg:hover {
+    color:white;
+}
+
+
+@media screen and (max-width: 960px) {
+
+}

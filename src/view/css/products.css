@@ -1,0 +1,122 @@
+.products-list-area {
+    display:grid;
+    grid-template-columns: auto auto auto;
+    row-gap:25px;
+    column-gap:15px;
+    /*background: rgba(204, 200, 200, 0.17);*/
+}
+
+.products-list-area .product-card-wrapper {
+    box-shadow: 1px 1px 12px 1px rgba(220, 220, 220, 0.42);
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.products-list-area .product-image  {
+    max-width:400px;
+    position:relative;
+}
+
+.products-list-area .product-info-wrapper {
+    padding:15px 15px 15px 15px;
+    background:white;
+
+}
+
+.products-list-area .product-title {
+    color:black;
+    margin-bottom:5px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.products-list-area .product-title:hover {
+    color:#26a8d5;
+}
+
+.products-list-area .product-price-area {
+    display:flex;
+    justify-content: space-between;
+    color:#fc7e51;
+    margin-bottom:15px;
+    font-weight:bold;
+}
+
+.products-list-area .product-price-area del {
+    color: #bbb;
+    font-weight:normal;
+}
+
+.products-list-area .action-wrapper {
+    display:grid;
+    grid-template-columns:50% 50%;
+    gap:10px;
+}
+
+.products-list-area .see-more-wrapper {
+    display:flex;
+    justify-content:center;
+    width:100%;
+}
+
+
+
+.products-list-area a {
+    width:100%;
+}
+
+.products-list-area .btn-see-more button,.btn-add-to-cart button{
+    width:100%;
+    text-align:center;
+    font-size:15px;
+    transition:all ease-in-out 0.3s;
+    border-radius:10px;
+    font-weight:normal;
+    margin:0px;
+    text-transform: unset !important;
+}
+
+.products-list-area .btn-add-to-cart button {
+    background:black;
+    color:white;
+}
+
+.products-list-area  .btn-see-more button {
+    background: #c8cdd0;
+    color:black;
+}
+
+.products-list-area .btn-see-more button:hover  {
+    background: #26a8d5;
+    color:white;
+}
+
+.products-list-area .btn-add-to-cart button:hover {
+    background: #26a8d5;
+
+}
+
+.products-list-area .badge-sale {
+    font-size:12px;
+    width:max-content;
+    padding:2px 5px;
+    color:white;
+    background:#fc7e51;
+    border-radius:5px;
+    margin-bottom:10px;
+
+    position:absolute;
+    right:10px;
+    top:10px;
+}
+
+
+
+@media screen and (min-width: 48rem) {
+    .products-list-area {
+        padding-left:10px;
+    }
+}
+
+
+
