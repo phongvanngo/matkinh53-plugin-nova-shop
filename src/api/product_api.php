@@ -2,32 +2,32 @@
 
 define("price_range", [
     array(
-        'term_id'=>"price_range_00",
+        'term_id'=>"0|500000",
         'name' =>'Dưới 500.000đ',
         'value' => [0,500000]
     ),
     array(
-        'term_id'=>"price_range_01",
+        'term_id'=>"500000|1000000",
         'name' =>'Từ 500.000đ đến 1.000.000đ',
         'value' => [500000,1000000]
     ),
     array(
-        'term_id'=>"price_range_02",
+        'term_id'=>"1000000|2000000",
         'name' =>'Từ 1.000.000đ đến 2.000.000đ',
         'value' => [1000000,2000000]
     ),
     array(
-        'term_id'=>"price_range_03",
+        'term_id'=>"2000000|5000000",
         'name' =>'Từ 2.000.000đ đến 5.000.000đ',
         'value' => [2000000,5000000]
     ),
     array(
-        'term_id'=>"price_range_04",
+        'term_id'=>"5000000|10000000",
         'name' =>'Từ 5.000.000đ đến 10.000.000đ',
         'value' => [5000000,10000000]
     ),
     array(
-        'term_id'=>"price_range_05",
+        'term_id'=>"10000000|00",
         'name' =>'Trên 10.000.000đ',
         'value' => [10000000,'00']
     ),
@@ -242,14 +242,16 @@ function GetProducts()
     if (isset($_REQUEST)) {
 
         $payload = $_REQUEST["novashop_filter"];
+        $product_type = $_REQUEST["product_type"];
+
 
         $filter_set = new stdClass();
         $filter_set->gender = $payload['gender'];
         $filter_set->brands = $payload['brands'];
         $filter_set->shapes = $payload['shapes'];
-        $filter_set->page = $payload['page'];
-        $filter_set->price_ranges = $payload['price_ranges'];
-        $filter_set->product_types = $payload['product_types'];
+        $filter_set->page = $payload['pageord'];
+        $filter_set->price_ranges = $payload['prices'];
+        $filter_set->product_type = $product_type;
         $filter_set->limit = $payload['limit'];
 
         $tax_query = array('relation' => 'AND');
@@ -279,7 +281,7 @@ function GetProducts()
         array_push($tax_query,array(
             'taxonomy' => 'product_cat',
             'field' => 'slug',
-            'terms' => $filter_set->product_types
+            'terms' => $filter_set->product_type
         ));
 
 
@@ -297,8 +299,8 @@ function GetProducts()
 //
 
         $args =  array(
-            'limit' => 20,
-            'page' => 1,
+            'limit' => $filter_set->limit,
+            'page' => $filter_set->page,
             'paginate' => true,
             'tax_query' => $tax_query,
             'price_range' => $filter_set->price_ranges
@@ -332,13 +334,17 @@ function handle_price_range_query_var( $query, $query_vars ) {
         if ( is_array($price_range)) {
             $query['meta_query']['relation'] = 'OR';
 
+
             foreach($price_range as $value) {
-                if($value[1] == "00") {
+
+                $range = explode( '|', esc_attr($value) );
+
+                if(end($range) == "00") {
                     // above $value[0]
                     $query['meta_query'][] =
                         array(
                             'key' => '_price',
-                            'value' => $value[0],
+                            'value' => reset($range),
                             'compare' => '>=',
                             'type' => 'NUMERIC'
                         );
@@ -346,7 +352,7 @@ function handle_price_range_query_var( $query, $query_vars ) {
                     $query['meta_query'][] =
                         array(
                             'key' => '_price',
-                            'value' => $value,
+                            'value' => $range,
                             'compare' => 'BETWEEN',
                             'type' => 'NUMERIC'
                         );
