@@ -133,6 +133,41 @@ margin-right:10px
     color:white;
 }
 
+.product-header-wrapper {
+    justify-content:space-between;
+    display:flex;
+    align-items:center;
+    padding:0px 0px 0px 10px;
+    margin-bottom:10px;
+}
+
+.product-header-wrapper .page-title{
+    font-weight:bold;
+    font-size:15px;
+    width:max-content;
+    margin:0px;
+}
+.nova-sort-wrapper {
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.nova-sort-wrapper #title-result-count{
+    /*width:500px;*/
+}
+
+.no-product-message{
+    margin-top:20px;
+    text-align:center;
+}
+
+
+
+.nova-sort-wrapper select{
+    width:250px;
+    margin:0px;
+}
 
 @media screen and (max-width: 960px) {
 

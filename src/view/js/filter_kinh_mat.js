@@ -11,6 +11,7 @@ var filter_set = {
     prices: [], // price-ranges
     pageord: 1,
     limit: 9,
+    order:"none"
 }
 
 // utils -----------------------
@@ -57,6 +58,7 @@ function extractQueryParams(str) {
         shapes: params.get("shapes") ? params.get("shapes").split(",") : [],
         gender: params.get("gender") ? params.get("gender").split(",") : [],
         prices: params.get("prices") ? params.get("prices").split(",") : [],
+        order: params.get("order") || filter_set.limit,
         limit: params.get("limit") || filter_set.limit,
         pageord: params.get("pageord") || 1,
     };
@@ -145,11 +147,21 @@ function fetchProducts(filter, changePage = false) {
         },
         success: function (data) {
             console.log(data);
-            const {pageord, totalPage, products} = data;
+            const {pageord, totalPage, products,limit,countResult} = data;
             renderProductsList(products);
+
+            if (countResult === 0) {
+                handleNoProduct();
+                return;
+            }
+
             if (changePage === false) {
                 handleRenderPagaination(pageord, filter_set.limit, totalPage);
             }
+            handleHaveProduct();
+
+
+            renderCountResult(pageord,limit,countResult);
         },
         error: function (errorThrown) {
             console.log("errorThrow", errorThrown.error);
@@ -164,8 +176,7 @@ function handleFilterProduct({changePage} = {changePage: false}) {
         filter_set.pageord = 1;
     };
     const official_filter_set = {
-        pageord: filter_set.pageord,
-        limit: filter_set.limit,
+        ...filter_set,
         gender: filter_set.gender.map(item => item.term_id),
         shapes: filter_set.shapes.map(item => item.term_id),
         brands: filter_set.brands.map(item => item.term_id),
@@ -357,6 +368,7 @@ function handleUpdateFilterSetWhenLoadPage() {
 
     console.log("update filter when reload page", filter_set);
 
+    document.getElementById(filter_set.order).selected=true;
 
     updateFilterActiveBar();
 
@@ -365,7 +377,6 @@ function handleUpdateFilterSetWhenLoadPage() {
 
 function handleRenderPagaination(page, pageSize, totalPage) {
     console.log("render pagination,", page, pageSize, totalPage);
-    jQuery('#nova-shop-product-pagination').innerHTML = "";
     jQuery('#nova-shop-product-pagination').pagination({
         dataSource: (() => {
             let res = [];
@@ -381,6 +392,16 @@ function handleRenderPagaination(page, pageSize, totalPage) {
             let chosenPage = e.currentTarget.getAttribute("data-num")
             filter_set.pageord = chosenPage;
             handleFilterProduct({changePage:true});
+        },
+        afterPreviousOnClick:()=> {
+            let selectedPage = jQuery('#nova-shop-product-pagination').pagination('getSelectedPageNum');
+            filter_set.pageord = selectedPage;
+            handleFilterProduct({changePage:true});
+        },
+        afterNextOnClick:()=> {
+            let selectedPage = jQuery('#nova-shop-product-pagination').pagination('getSelectedPageNum');
+            filter_set.pageord = selectedPage;
+            handleFilterProduct({changePage:true});
         }
     })
 }
@@ -391,4 +412,46 @@ addEventToToggleFilterBox();
 
 handleFetchProductsWhenLoadPage();
 
+function changeSort() {
+    let select = document.getElementById("nova-sort-product");
+    filter_set.order=select.options[select.selectedIndex].value;
+    handleFilterProduct();
+}
+
+
+function renderCountResult(page,limit,totalProducts) {
+    if (totalProducts === 0 ) {
+        document.getElementById("title-result-count").innerText="";
+        return;
+    };
+    let pageord = parseInt(page);
+    let pageSize= parseInt(limit);
+    let total = parseInt(totalProducts);
+
+    let start = (pageSize*(pageord-1))+1;
+    let end = start + pageSize-1;
+
+    if (end > totalProducts) end = totalProducts;
+
+
+
+    //render: Hiển thị 5-12 trên 127 kết quả
+    let res = `Hiển thị ${start}-${end} trên ${total} kết quả`;
+    document.getElementById("title-result-count").innerText=res;
+}
+
+function handleNoProduct() {
+    document.getElementById("no-product-message-wrapper").innerHTML=`
+        <div class="no-product-message">
+           Rất tiếc, hiện tại chưa có sản phẩm nào phù hợp với yêu cầu của bạn
+        </div>
+    `;
+
+    document.querySelector('#nova-shop-product-pagination').innerHTML = "";
+
+}
+
+function handleHaveProduct() {
+    document.getElementById("no-product-message-wrapper").innerHTML=``;
+}
 

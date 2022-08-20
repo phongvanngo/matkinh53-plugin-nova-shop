@@ -253,6 +253,7 @@ function GetProducts()
         $filter_set->price_ranges = $payload['prices'];
         $filter_set->product_type = $product_type;
         $filter_set->limit = $payload['limit'];
+        $filter_set->order = $payload['order'];
 
         $tax_query = array('relation' => 'AND');
         if(!empty($filter_set->gender)){
@@ -281,8 +282,10 @@ function GetProducts()
         array_push($tax_query,array(
             'taxonomy' => 'product_cat',
             'field' => 'slug',
-            'terms' => $filter_set->product_type
+            'terms' => $filter_set->product_type,
         ));
+
+
 
 
 //        $args = array(
@@ -298,21 +301,62 @@ function GetProducts()
 //        $products = formatProducts($loop);
 //
 
+        $args_to_count = array (
+            'limit' => -1,
+            'tax_query' => $tax_query,
+            'price_range' => $filter_set->price_ranges,
+            'visibility' => 'visible',
+            'status' => 'publish',
+        );
+
+        $loop = wc_get_products( $args_to_count );
+        $count_all_products = count($loop);
+
         $args =  array(
             'limit' => $filter_set->limit,
             'page' => $filter_set->page,
             'paginate' => true,
             'tax_query' => $tax_query,
-            'price_range' => $filter_set->price_ranges
+            'price_range' => $filter_set->price_ranges,
+            'visibility' => 'visible',
+            'status' => 'publish',
         );
+
+        switch ($filter_set->order){
+            case "priceasc":
+                $args['order'] = "ASC";
+                $args['orderby'] = "meta_value_num";
+                $args['meta_key'] = "_price";
+                break;
+            case "pricedesc":
+                $args['order'] = "DESC";
+                $args['orderby'] = "meta_value_num";
+                $args['meta_key'] = "_price";
+                break;
+            case "datedesc":
+                $args['order'] = "DESC";
+                $args['orderby'] = "date";
+                break;
+            case "dateasc":
+                $args['order'] = "ASC";
+                $args['orderby'] = "date";
+                break;
+            case "none":
+                $args['orderby'] = "none";
+                break;
+        }
+
 
         $loop = wc_get_products( $args );
         $products = formatWooProducts($loop->products);
 
         $response_data = array(
             'products' => $products,
+            'loop' => $loop,
+            'countResult' =>  $count_all_products,
             'totalPage' => $loop->max_num_pages,
             'pageord' => $filter_set->page,
+            'limit'=>$filter_set->limit,
             'filter_set' => $filter_set,
         );
 

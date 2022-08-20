@@ -33,6 +33,16 @@ function CreatePageKinhMat()
             </div>
             <div class="filter-box open">
                 <div class="filter-box-title">
+                    <h3>THƯƠNG HIỆU</h3>
+                    <span class="plus">+</span>
+                    <span class="minus">-</span>
+                </div>
+                <div id="filter-brands" class="filter-box-list">
+
+                </div>
+            </div>
+            <div class="filter-box open">
+                <div class="filter-box-title">
                     <h3>DÁNG KÍNH</h3>
                     <span class="plus">+</span>
                     <span class="minus">-</span>
@@ -51,26 +61,38 @@ function CreatePageKinhMat()
 
                 </div>
             </div>
-            <div class="filter-box open">
-                <div class="filter-box-title">
-                    <h3>THƯƠNG HIỆU</h3>
-                    <span class="plus">+</span>
-                    <span class="minus">-</span>
-                </div>
-                <div id="filter-brands" class="filter-box-list">
 
-                </div>
-            </div>
         </div>
         <div class="products-wrapper">
+            <div class="product-header-wrapper">
+
+                <h1 class="page-title">
+                    KÍNH MÁT
+                </h1>
+                <div class="nova-sort-wrapper">
+                    <div id="title-result-count"> </div>
+                    <select name="cars" id="nova-sort-product" onchange="changeSort(event)">
+                        <option  value="none" id="none" hidden>Sắp xếp</option>
+                        <option  value="datedesc" id="datedesc">Mới nhất</option>
+                        <option  value="dateasc" id="dateasc">Cũ nhất</option>
+                        <option value="pricedesc" id="pricedesc">Giá từ cao tới thấp</option>
+                        <option   value="priceasc" id="priceasc">Giá từ thấp tới cao</option>
+                    </select>
+                </div>
+            </div>
+            <div id="no-product-message-wrapper">
+
+            </div>
             <div id="products-list" class="products-list-area">
+
             </div>
             <div id="nova-shop-product-pagination"></div>
         </div>
     </div>
 
-    <script src="https://pagination.js.org/dist/2.1.5/pagination.min.js"></script>
+
     <script src="<?php echo plugins_url('/js/global_state.js', __FILE__) ?>"></script>
+    <script src="<?php echo plugins_url('/js/paginationjs.min.js', __FILE__) ?>"></script>
     <script>
         URL_ADMIN_AJAX = '<?php echo admin_url('admin-ajax.php');?>';
     </script>
