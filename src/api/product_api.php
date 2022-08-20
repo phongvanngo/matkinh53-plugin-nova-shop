@@ -312,6 +312,7 @@ function GetProducts()
         $response_data = array(
             'products' => $products,
             'totalPage' => $loop->max_num_pages,
+            'pageord' => $filter_set->page,
             'filter_set' => $filter_set,
         );
 
@@ -387,3 +388,6 @@ function handle_price_range_query_var( $query, $query_vars ) {
     }
     return $query;
 }
+
+
+

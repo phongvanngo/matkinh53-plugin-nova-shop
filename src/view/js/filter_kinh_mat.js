@@ -9,8 +9,8 @@ var filter_set = {
     shapes: [],
     brands: [],
     prices: [], // price-ranges
-    pageord:1,
-    limit:9,
+    pageord: 1,
+    limit: 9,
 }
 
 // utils -----------------------
@@ -19,10 +19,10 @@ const PRE_ID = {
     active_filter: "ACTIVE_FILTER"
 }
 const id_cate_checkbox = (id) => `${PRE_ID.cate_checkbox}${id}`;
-const extract_id_cate_checkbox = (str) => str.replace(PRE_ID.cate_checkbox,"");
+const extract_id_cate_checkbox = (str) => str.replace(PRE_ID.cate_checkbox, "");
 
 const id_active_filter = (id) => `${PRE_ID.active_filter}${id}`;
-const extract_id_active_filter = (str,id) => str.replace(PRE_ID.active_filter,"");
+const extract_id_active_filter = (str, id) => str.replace(PRE_ID.active_filter, "");
 
 
 // handle url search params ----------
@@ -30,10 +30,10 @@ function convertObjectToQueryParams(object) {
 
     let query = {...object};
 
-    let str ="";
+    let str = "";
 
-    query.brands = query.brands ? query.brands.join(): "";
-    query.shapes = query.shapes ? query.shapes.join() :"";
+    query.brands = query.brands ? query.brands.join() : "";
+    query.shapes = query.shapes ? query.shapes.join() : "";
     query.gender = query.gender ? query.gender.join() : "";
     query.prices = query.prices ? query.prices.join() : "";
 
@@ -41,28 +41,27 @@ function convertObjectToQueryParams(object) {
         if (!query[key]) {
             delete query[key];
         }
-    };
+    }
+    ;
 
-    return "?" +jQuery.param(query);
+    return "?" + jQuery.param(query);
 
 }
 
 function extractQueryParams(str) {
     let params = new URLSearchParams(str);
-    console.log("params",str,params);
+    console.log("params", str, params);
 
-    let query ={
-        brands: params.get("brands") ? params.get("brands").split(","):[],
-        shapes: params.get("shapes") ? params.get("shapes").split(","):[],
-        gender: params.get("gender") ? params.get("gender").split(","):[],
-        prices: params.get("prices") ? params.get("prices").split(","):[],
-        limit : params.get("limit"),
-        pageord : params.get("pageord"),
+    let query = {
+        brands: params.get("brands") ? params.get("brands").split(",") : [],
+        shapes: params.get("shapes") ? params.get("shapes").split(",") : [],
+        gender: params.get("gender") ? params.get("gender").split(",") : [],
+        prices: params.get("prices") ? params.get("prices").split(",") : [],
+        limit: params.get("limit") || filter_set.limit,
+        pageord: params.get("pageord") || 1,
     };
 
     console.log(query);
-
-
 
 
     return query;
@@ -92,8 +91,8 @@ function filterActiveBadgeComponent(id, name, filter_name) {
     `
 }
 
-function cateFilterItemComponent(id,name,image,filter_type_name) {
-    return`
+function cateFilterItemComponent(id, name, image, filter_type_name) {
+    return `
         <label class="filter-item">
             <input 
                 onchange="chooseFilter(this,'${id}','${filter_type_name}')"
@@ -102,7 +101,7 @@ function cateFilterItemComponent(id,name,image,filter_type_name) {
                 class="nova-checkbox" 
                 value="1"
             />
-            ${image ? `<img src='${image}'/>` :""}
+            ${image ? `<img src='${image}'/>` : ""}
             <span>${name}</span>
         </label>
 `;
@@ -115,16 +114,14 @@ function removeItemFromArr(arr, value) {
     if (index >= 0) arr = arr.splice(index, 1);
 }
 
-function addItemToArr(arr, value,filter_name) {
+function addItemToArr(arr, value, filter_name) {
 
     if (filter_name === "prices") {
         const index = arr.findIndex(item => item.term_id == value);
         if (index >= 0) return;
         const cate = categories_information.price_ranges.find(item => item.term_id == value);
         arr.push(cate);
-    }
-
-    else {
+    } else {
         const index = arr.findIndex(item => item.term_id == value);
         if (index >= 0) return;
         const cate = categories_information.all_categories.find(item => item.term_id == value);
@@ -134,9 +131,9 @@ function addItemToArr(arr, value,filter_name) {
 
 }
 
-function fetchProducts(filter) {
+function fetchProducts(filter, changePage = false) {
     const filter_set = filter;
-    console.log("fetch_products",filter_set);
+    console.log("fetch_products", filter_set);
 
     jQuery.ajax({
         dataType: "json", //Dạng dữ liệu trả về xml, json, script, or html
@@ -144,69 +141,62 @@ function fetchProducts(filter) {
         data: {
             'action': 'GetProducts', // This is our PHP function below
             'novashop_filter': filter_set,// This is the variable we are sending via AJAX
-            'product_type':product_type
+            'product_type': product_type
         },
         success: function (data) {
             console.log(data);
-            renderProductsList(data.products);
+            const {pageord, totalPage, products} = data;
+            renderProductsList(products);
+            if (changePage === false) {
+                handleRenderPagaination(pageord, filter_set.limit, totalPage);
+            }
         },
         error: function (errorThrown) {
-            console.log(errorThrown);
+            console.log("errorThrow", errorThrown.error);
 
         }
     })
-
-
 }
 
-function handleFilterProduct() {
-    console.log(filter_set);
-
+function handleFilterProduct({changePage} = {changePage: false}) {
+    console.log("handle filter produuct, filter_set", filter_set);
+    if (changePage === false) {
+        filter_set.pageord = 1;
+    };
     const official_filter_set = {
-        pageord:filter_set.pageord,
-        limit:filter_set.limit,
-        gender:filter_set.gender.map(item => item.term_id),
-        shapes:filter_set.shapes.map(item => item.term_id),
+        pageord: filter_set.pageord,
+        limit: filter_set.limit,
+        gender: filter_set.gender.map(item => item.term_id),
+        shapes: filter_set.shapes.map(item => item.term_id),
         brands: filter_set.brands.map(item => item.term_id),
-        prices:filter_set.prices.map(item => item.term_id),
+        prices: filter_set.prices.map(item => item.term_id),
     }
-
-    // const simple_filter_set = {
-    //     ...filter_set,
-    //     gender : filter_set.gender.map(item => item.term_id),
-    //     shapes : filter_set.shapes.map(item => item.term_id),
-    //     brands: filter_set.brands.map(item => item.term_id),
-    //     price_ranges: filter_set.prices.map(item => item.value),
-    //     prices:filter_set.price_ranges.map(item => item.term_id),
-    // }
-
-    // console.log(simple_filter_set);
 
     updateCurrentURL(official_filter_set);
     displayBtnClearFilter();
-    fetchProducts(official_filter_set);
+    fetchProducts(official_filter_set, changePage);
 }
 
 function emptyFilter() {
 
-    filter_set.brands.forEach(item=>{
-        document.getElementById(id_cate_checkbox(item.term_id)).checked=false;
+    filter_set.brands.forEach(item => {
+        document.getElementById(id_cate_checkbox(item.term_id)).checked = false;
     })
-    filter_set.shapes.forEach(item=>{
-        document.getElementById(id_cate_checkbox(item.term_id)).checked=false;
+    filter_set.shapes.forEach(item => {
+        document.getElementById(id_cate_checkbox(item.term_id)).checked = false;
     })
-    filter_set.gender.forEach(item=>{
-        document.getElementById(id_cate_checkbox(item.term_id)).checked=false;
+    filter_set.gender.forEach(item => {
+        document.getElementById(id_cate_checkbox(item.term_id)).checked = false;
     })
-    filter_set.prices.forEach(item=>{
-        document.getElementById(id_cate_checkbox(item.term_id)).checked=false;
+    filter_set.prices.forEach(item => {
+        document.getElementById(id_cate_checkbox(item.term_id)).checked = false;
     })
 
     filter_set = {
         ...filter_set,
         brands: [],
-        shapes : [],
-        gender:[],
+        shapes: [],
+        gender: [],
         prices: []
     };
     handleFilterProduct();
@@ -249,9 +239,7 @@ function displayBtnClearFilter() {
         & filter_set.prices.length === 0
     ) {
         btnSetDefault.classList.remove("open");
-    }
-    else
-    {
+    } else {
         btnSetDefault.classList.add("open");
     }
 }
@@ -264,27 +252,27 @@ function updateCurrentURL(value) {
             window.location.pathname +
             convertObjectToQueryParams(value)
         ;
-        window.history.pushState({path:newurl},'',newurl);
+        window.history.pushState({path: newurl}, '', newurl);
     }
 }
 
 function getCurrentFilterSetFromURL() {
     let current_filter_set = {...filter_set};
     try {
-       current_filter_set ={...filter_set, ...extractQueryParams(window.location.search)};
-       console.log(current_filter_set);
-    }catch {
+        current_filter_set = {...filter_set, ...extractQueryParams(window.location.search)};
+        console.log(current_filter_set);
+    } catch {
         console.log("get queryparams failed");
         updateCurrentURL({});
     }
     return current_filter_set;
 }
 
-function chooseFilter(element,id, filter_name) {
+function chooseFilter(element, id, filter_name) {
 
     let filter = filter_set[filter_name];
     if (element.checked) {
-        addItemToArr(filter, id,filter_name);
+        addItemToArr(filter, id, filter_name);
     } else {
         removeItemFromArr(filter, id)
     }
@@ -301,17 +289,17 @@ function renderFilterKinhMat() {
     let shapes_options = "";
     let price_options = "";
     categories_information.gender.forEach((item) => {
-        gender_options += cateFilterItemComponent(item.term_id,item.name,null,'gender');
+        gender_options += cateFilterItemComponent(item.term_id, item.name, null, 'gender');
     });
     categories_information.brands_kinh_mat.forEach((item) => {
-        brands_options += cateFilterItemComponent(item.term_id,item.name,null,'brands');
+        brands_options += cateFilterItemComponent(item.term_id, item.name, null, 'brands');
     });
     categories_information.shapes_kinh_mat.forEach((item) => {
-        shapes_options +=cateFilterItemComponent(item.term_id,item.name,item.image,'shapes');
+        shapes_options += cateFilterItemComponent(item.term_id, item.name, item.image, 'shapes');
     });
 
     categories_information.price_ranges.forEach((item) => {
-        price_options +=cateFilterItemComponent(item.term_id,item.name,null,'prices');
+        price_options += cateFilterItemComponent(item.term_id, item.name, null, 'prices');
     });
 
     document.getElementById("filter-shapes").innerHTML = shapes_options;
@@ -319,7 +307,6 @@ function renderFilterKinhMat() {
     document.getElementById("filter-gender").innerHTML = gender_options;
 
     document.getElementById("filter-price-range").innerHTML = price_options;
-
 
 
 }
@@ -342,25 +329,25 @@ function handleFetchProductsWhenLoadPage() {
 function handleUpdateFilterSetWhenLoadPage() {
     //auto check checkbox from filter getting from URL
     const simple_filter_set = getCurrentFilterSetFromURL();
-    console.log("handle recheck",simple_filter_set);
+    console.log("handle recheck", simple_filter_set);
 
     // update simple_filter_set and check checkbox
-    simple_filter_set.gender.forEach(id=>{
+    simple_filter_set.gender.forEach(id => {
         document.getElementById(id_cate_checkbox(id)).checked = true;
         const item = categories_information.gender.find(cate => cate.term_id == id);
         filter_set.gender.push(item);
     })
-    simple_filter_set.shapes.forEach(id=>{
+    simple_filter_set.shapes.forEach(id => {
         document.getElementById(id_cate_checkbox(id)).checked = true;
         const item = categories_information.shapes_kinh_mat.find(cate => cate.term_id == id);
         filter_set.shapes.push(item);
     })
-    simple_filter_set.brands.forEach(id=>{
+    simple_filter_set.brands.forEach(id => {
         document.getElementById(id_cate_checkbox(id)).checked = true;
         const item = categories_information.brands_kinh_mat.find(cate => cate.term_id == id);
         filter_set.brands.push(item);
     })
-    simple_filter_set.prices.forEach(id=>{
+    simple_filter_set.prices.forEach(id => {
         document.getElementById(id_cate_checkbox(id)).checked = true;
         const item = categories_information.price_ranges.find(cate => cate.term_id == id);
         filter_set.prices.push(item);
@@ -368,8 +355,7 @@ function handleUpdateFilterSetWhenLoadPage() {
 
     displayBtnClearFilter();
 
-    console.log("update filter when reload page",filter_set);
-
+    console.log("update filter when reload page", filter_set);
 
 
     updateFilterActiveBar();
@@ -377,7 +363,31 @@ function handleUpdateFilterSetWhenLoadPage() {
 
 };
 
+function handleRenderPagaination(page, pageSize, totalPage) {
+    console.log("render pagination,", page, pageSize, totalPage);
+    jQuery('#nova-shop-product-pagination').innerHTML = "";
+    jQuery('#nova-shop-product-pagination').pagination({
+        dataSource: (() => {
+            let res = [];
+            for (let i = 0; i < totalPage * pageSize; i++) res.push(i);
+            return res;
+        })(),
+        pageSize: pageSize,
+        pageNumber:page,
+        showPrevious: true,
+        showNext: true,
+        afterPageOnClick: (e) => {
+            console.log("after page on click", e.currentTarget.getAttribute("data-num"));
+            let chosenPage = e.currentTarget.getAttribute("data-num")
+            filter_set.pageord = chosenPage;
+            handleFilterProduct({changePage:true});
+        }
+    })
+}
+
 addEventToToggleFilterBox();
+
+// handleRenderPagaination(1,filter_set.limit,10)
 
 handleFetchProductsWhenLoadPage();
 

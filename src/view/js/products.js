@@ -11,9 +11,14 @@ function ProductCardComponent(product) {
     let official_price = "";
     let price_to_delete = "";
 
+    let discount_percentage = -1;
+
     if (sale_price !== -1) {
         official_price = sale_price;
         price_to_delete = regular_price;
+
+        discount_percentage = (regular_price - sale_price)/regular_price*100;
+
     } else official_price = regular_price;
 
     return `
@@ -24,9 +29,7 @@ function ProductCardComponent(product) {
                             <img src="${images[0]}"/>
                         </a>
                         
-                        <div class="badge-sale">
-                            50%
-                        </div>
+                        ${sale_price !== -1 ? `<div class="badge-sale">-${discount_percentage}%</div>`:""}
                     </div>
                     <div class="product-info-wrapper">
                         
