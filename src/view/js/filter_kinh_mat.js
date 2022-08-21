@@ -10,7 +10,7 @@ var filter_set = {
     brands: [],
     prices: [], // price-ranges
     pageord: 1,
-    limit: 9,
+    limit: 12,
     order: "none"
 }
 
@@ -200,7 +200,7 @@ function fetchProducts(filter, changePage = false) {
 function scrollTopAfterFilter() {
     const Y = document.getElementById("nova-page-title").offsetTop;
     console.log(Y);
-    window.scrollTo(0,Y);
+    window.scrollTo(0, Y);
 
 }
 
@@ -227,21 +227,21 @@ function emptyFilter() {
 
     filter_set.brands.forEach(item => {
         document.getElementById(id_cate_checkbox(item.term_id)).checked = false;
-        updateMobileFeatureCheckStatus(item.term_id,false);
+        updateMobileFeatureCheckStatus(item.term_id, false);
     })
     filter_set.shapes.forEach(item => {
         document.getElementById(id_cate_checkbox(item.term_id)).checked = false;
-        updateMobileFeatureCheckStatus(item.term_id,false);
+        updateMobileFeatureCheckStatus(item.term_id, false);
 
     })
     filter_set.gender.forEach(item => {
         document.getElementById(id_cate_checkbox(item.term_id)).checked = false;
-        updateMobileFeatureCheckStatus(item.term_id,false);
+        updateMobileFeatureCheckStatus(item.term_id, false);
 
     })
     filter_set.prices.forEach(item => {
         document.getElementById(id_cate_checkbox(item.term_id)).checked = false;
-        updateMobileFeatureCheckStatus(item.term_id,false);
+        updateMobileFeatureCheckStatus(item.term_id, false);
 
     })
 
@@ -264,7 +264,7 @@ function removeFilterBadge(id, filter_name) {
 
     document.getElementById(id_cate_checkbox(id)).checked = false;
     document.getElementById(id_active_filter(id)).parentElement.remove();
-    updateMobileFeatureCheckStatus(id_cate_mobile(id),false)
+    updateMobileFeatureCheckStatus(id_cate_mobile(id), false)
     handleFilterProduct();
 }
 
@@ -326,10 +326,10 @@ function chooseFilter(element, id, filter_name) {
     let filter = filter_set[filter_name];
     if (element.checked) {
         addItemToArr(filter, id, filter_name);
-        updateMobileFeatureCheckStatus(id,true);
+        updateMobileFeatureCheckStatus(id, true);
     } else {
         removeItemFromArr(filter, id);
-        updateMobileFeatureCheckStatus(id,false);
+        updateMobileFeatureCheckStatus(id, false);
     }
     filter_set[filter_name] = filter;
     handleFilterProduct();
@@ -355,10 +355,14 @@ function mobileChooseFilter(element, id, filter_name) {
 }
 
 function updateMobileFeatureCheckStatus(id, status) {
-    if (status) {
-        document.getElementById(id_cate_mobile(id)).classList.add("selected");
-    } else {
-        document.getElementById(id_cate_mobile(id)).classList.remove("selected");
+    try {
+        if (status) {
+            document.getElementById(id_cate_mobile(id)).classList.add("selected");
+        } else {
+            document.getElementById(id_cate_mobile(id)).classList.remove("selected");
+        }
+    } catch {
+
     }
 }
 
@@ -433,13 +437,13 @@ function handleUpdateFilterSetWhenLoadPage() {
         filter_set.gender.push(item);
     })
     simple_filter_set.shapes.forEach(id => {
-        updateMobileFeatureCheckStatus(id,true);
+        updateMobileFeatureCheckStatus(id, true);
         document.getElementById(id_cate_checkbox(id)).checked = true;
         const item = categories_information.shapes_kinh_mat.find(cate => cate.term_id == id);
         filter_set.shapes.push(item);
     })
     simple_filter_set.brands.forEach(id => {
-        updateMobileFeatureCheckStatus(id,true);
+        updateMobileFeatureCheckStatus(id, true);
         document.getElementById(id_cate_checkbox(id)).checked = true;
         const item = categories_information.brands_kinh_mat.find(cate => cate.term_id == id);
         filter_set.brands.push(item);

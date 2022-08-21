@@ -1,10 +1,9 @@
 <?php
 
-function CreatePageKinhMat()
+function CreatePageKinhMat($productType="kinh-mat")
 {
     ob_start();
     ?>
-    <link rel="stylesheet" href="<?php echo plugins_url('/css/filter.css', __FILE__) ?>">
     <link rel="stylesheet" href="<?php echo plugins_url('/css/products-page.css', __FILE__) ?>">
     <link rel="stylesheet" href="<?php echo plugins_url('/css/custom-checkbox.css', __FILE__) ?>">
     <link rel="stylesheet" href="<?php echo plugins_url('/css/products.css', __FILE__) ?>">
@@ -133,8 +132,9 @@ function CreatePageKinhMat()
     <script src="<?php echo plugins_url('/js/fetch_filter.js', __FILE__) ?>"></script>
     <script src="<?php echo plugins_url('/js/products.js', __FILE__) ?>"></script>
     <script src="<?php echo plugins_url('/js/filter_kinh_mat.js', __FILE__) ?>"></script>
-    <script src="<?php echo plugins_url('/js/mobile_filter.js', __FILE__) ?>"></script>
-
+    <script>
+        product_type = "<?php echo $productType ?>";
+    </script>
 
     <?php
     return ob_get_clean();
