@@ -2,6 +2,8 @@
     list-style: none;
     display: flex;
     margin:0px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .paginationjs {
@@ -45,4 +47,10 @@
 
 #nova-shop-product-pagination li.active a{
     color:white;
+}
+
+@media screen and (max-width: 48rem) {
+    .paginationjs-pages ul {
+        font-size:12px;
+    }
 }

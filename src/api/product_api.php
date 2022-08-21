@@ -67,9 +67,9 @@ function GetCategory()
 
         $response_data = array(
             'all_categories' => $all_categories,
-            'brands_kinh_mat' =>  $cate_brands_kinh_mat,
-            'brands_gong_kinh' => $cate_brands_gong_kinh,
-            'brands_trong_kinh' => $cate_brands_trong_kinh,
+            'brands_kinh_mat' =>  getMetaData($cate_brands_kinh_mat),
+            'brands_gong_kinh' => getMetaData($cate_brands_gong_kinh),
+            'brands_trong_kinh' => getMetaData($cate_brands_trong_kinh),
             'shapes_kinh_mat' => getMetaData($cate_shapes_kinh_mat),
             'shapes_gong_kinh' => getMetaData($cate_shapes_gong_kinh),
             'features_trong_kinh' => getMetaData($cate_features_gong_kinh),

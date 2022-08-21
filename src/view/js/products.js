@@ -25,7 +25,7 @@ function ProductCardComponent(product) {
    
                 <div class="product-card-wrapper">
                     <div class="product-image">
-                        <a  href="${link}">
+                        <a href="${link}">
                             <img src="${images[0]}"/>
                         </a>
                         
@@ -50,7 +50,7 @@ function ProductCardComponent(product) {
                                     Chi tiết
                                 </button>
                             </a>
-                            <a class="btn-add-to-cart ajax-add-to-cart" href="?add-to-cart=${id}">
+                            <a style="display:none;" class="btn-add-to-cart ajax-add-to-cart" href="?add-to-cart=${id}">
                                 <button ">
                                    Thêm vào giỏ 
                                 </button>

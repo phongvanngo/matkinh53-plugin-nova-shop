@@ -299,14 +299,22 @@ function renderFilterKinhMat() {
     let brands_options = "";
     let shapes_options = "";
     let price_options = "";
+
+    let mobile_filter_feature = "";
+    let mobile_filter_brands = "";
+
+
     categories_information.gender.forEach((item) => {
         gender_options += cateFilterItemComponent(item.term_id, item.name, null, 'gender');
     });
     categories_information.brands_kinh_mat.forEach((item) => {
         brands_options += cateFilterItemComponent(item.term_id, item.name, null, 'brands');
+        mobile_filter_brands += BrandFilterItemComponent(item.name);
+
     });
     categories_information.shapes_kinh_mat.forEach((item) => {
         shapes_options += cateFilterItemComponent(item.term_id, item.name, item.image, 'shapes');
+        mobile_filter_feature += FeatureFilterItemComponent(item.image,item.name);
     });
 
     categories_information.price_ranges.forEach((item) => {
@@ -318,6 +326,8 @@ function renderFilterKinhMat() {
     document.getElementById("filter-gender").innerHTML = gender_options;
 
     document.getElementById("filter-price-range").innerHTML = price_options;
+    document.getElementById("filter-feature-wrapper").innerHTML = mobile_filter_feature;
+    document.getElementById("filter-brands-wrapper").innerHTML = mobile_filter_brands;
 
 
 }

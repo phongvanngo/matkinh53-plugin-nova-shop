@@ -40,6 +40,7 @@
     color:#fc7e51;
     margin-bottom:15px;
     font-weight:bold;
+    font-size:15px;
 }
 
 .products-list-area .product-price-area del {
@@ -48,8 +49,8 @@
 }
 
 .products-list-area .action-wrapper {
-    display:grid;
-    grid-template-columns:50% 50%;
+    display:flex;
+    /*grid-template-columns:50% 50%;*/
     gap:10px;
 }
 
@@ -61,8 +62,10 @@
 
 
 
-.products-list-area a {
+.products-list-area .btn-see-more {
     width:100%;
+    display:flex;
+    justify-content:center;
 }
 
 .products-list-area .btn-see-more button,.btn-add-to-cart button{
@@ -72,7 +75,7 @@
     transition:all ease-in-out 0.3s;
     border-radius:10px;
     font-weight:normal;
-    margin:0px;
+    margin:auto;
     text-transform: unset !important;
 }
 
@@ -116,7 +119,95 @@
     .products-list-area {
         padding-left:10px;
     }
+
+
 }
 
+@media screen and (max-width: 48rem) {
+    .products-list-area .product-price-area {
+        font-size:10px !important;
+    }
+
+    .products-list-area .product-title {
+        font-size:10px !important;
+    }
+
+    .products-list-area a button {
+        font-size:10px !important;
+    }
+
+    .products-list-area .badge-sale {
+        font-size:10px !important;
+    }
+
+    .nova-mobile-filter {
+        display:block !important;
+    }
+    .nova-products {
+        display:block
+    }
 
 
+
+}
+
+.nova-mobile-filter {
+    display:none;
+}
+
+.nova-mobile-filter .filter-feature-wrapper {
+    display:flex;
+    gap:10px;
+    width:100vw;
+    overflow-x:scroll;
+    flex-wrap: nowrap;
+    margin-bottom:5px;
+    padding: 5px 30px 5px 0px;
+}
+
+.nova-mobile-filter .filter-feature-item {
+    padding:5px;
+    border-radius:5px;
+    display:flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom:5px;
+    box-shadow: 1px 1px 12px 1px rgba(220, 220, 220, 0.42);
+    text-align:center;
+    font-size:10px;
+}
+
+.nova-mobile-filter .filter-feature-item img {
+    width:60px;
+    max-width:unset !important;
+}
+
+.nova-mobile-filter .filter-feature-item p {
+    margin:0px;
+}
+.filter-brands-wrapper {
+    display:flex;
+    flex-wrap:wrap;
+    gap:5px;
+    margin-bottom:10px;
+
+}
+/*.filter-brands-wrapper .filter-brand-item{*/
+/*    min-width:60px;*/
+/*    height:30px;*/
+/*    padding:5px;*/
+/*    border:1px solid black;*/
+/*    border-radius:5px;*/
+/*    display:flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    align-text:center;*/
+/*    font-size:12px;*/
+/*    box-shadow: 1px 1px 12px 1px rgba(220, 220, 220, 0.42);*/
+/*}*/
+
+/*.filter-brands-wrapper .filter-brand-item.active{*/
+/*    border-color:#fc7e51;*/
+
+/*}*/
