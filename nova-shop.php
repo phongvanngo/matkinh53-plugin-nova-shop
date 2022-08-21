@@ -7,7 +7,7 @@
 Plugin Name: Nova Shop
 Description: provide products layout developed from woo commerce
 Author: Novapo
-Version: 1.0.0
+Version: 1.1.0
 */
 
 require __DIR__ . '/src/api/product_api.php';
@@ -31,6 +31,5 @@ add_shortcode('novashop', 'BuildProductPage');
 function BuildProductPage($atts) {
     return CreatePageKinhMat($atts["type"]);
 };
-
 
 //add feature price range products

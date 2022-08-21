@@ -1,3 +1,7 @@
+html {
+    scroll-behavior:smooth !important;
+}
+
 .nova-products {
     display: flex;
     width:100%;

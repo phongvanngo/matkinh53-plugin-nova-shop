@@ -2,6 +2,23 @@
 
 function CreatePageKinhMat($productType="kinh-mat")
 {
+    $pageTitle = "";
+    $features_label = "DÁNG KÍNH";
+
+    switch($productType) {
+        case "kinh-mat":
+            $pageTitle="KÍNH MÁT";
+            break;
+        case "trong-kinh":
+            $pageTitle="TRÒNG KÍNH";
+            $features_label="CHỨC NĂNG TRÒNG";
+            break;
+        case "gong-kinh":
+            $pageTitle="GỌNG KÍNH";
+            break;
+    }
+
+
     ob_start();
     ?>
     <link rel="stylesheet" href="<?php echo plugins_url('/css/products-page.css', __FILE__) ?>">
@@ -65,7 +82,7 @@ function CreatePageKinhMat($productType="kinh-mat")
             </div>
             <div class="filter-box open">
                 <div class="filter-box-title">
-                    <h3>DÁNG KÍNH</h3>
+                    <h3> <?php echo $features_label ?> </h3>
                     <span class="plus">+</span>
                     <span class="minus">-</span>
                 </div>
@@ -73,7 +90,7 @@ function CreatePageKinhMat($productType="kinh-mat")
 
                 </div>
             </div>
-            <div class="filter-box open">
+            <div id="filter-gender-wrapper" class="filter-box open">
                 <div class="filter-box-title">
                     <h3>GIỚI TÍNH</h3>
                     <span class="plus">+</span>
@@ -100,7 +117,7 @@ function CreatePageKinhMat($productType="kinh-mat")
             <div class="product-header-wrapper">
 
                 <h1 id="nova-page-title" class="page-title">
-                    KÍNH MÁT
+                    <?php echo $pageTitle ?>
                 </h1>
                 <div class="nova-sort-wrapper">
                     <div id="title-result-count"></div>
