@@ -399,6 +399,10 @@ function renderFilterKinhMat() {
         price_options += cateFilterItemComponent(item.term_id, item.name, null, 'prices');
     });
 
+    //handle error css scrolling in phone
+    mobile_filter_brands+=`<div style="min-width:50px;color:white">&nbsp;</div>`;
+    mobile_filter_feature+=`<div style="min-width:50px;color:white">&nbsp;</div>`;
+
     document.getElementById("filter-shapes").innerHTML = shapes_options;
     document.getElementById("filter-brands").innerHTML = brands_options;
     document.getElementById("filter-gender").innerHTML = gender_options;
