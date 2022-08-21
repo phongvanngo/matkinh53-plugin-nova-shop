@@ -11,16 +11,20 @@ var filter_set = {
     prices: [], // price-ranges
     pageord: 1,
     limit: 9,
-    order:"none"
+    order: "none"
 }
 
 // utils -----------------------
 const PRE_ID = {
     cate_checkbox: "CATEINP",
+    cate_mobile: "CATEMOBILE",
     active_filter: "ACTIVE_FILTER"
 }
 const id_cate_checkbox = (id) => `${PRE_ID.cate_checkbox}${id}`;
 const extract_id_cate_checkbox = (str) => str.replace(PRE_ID.cate_checkbox, "");
+
+const id_cate_mobile = (id) => `${PRE_ID.cate_mobile}${id}`;
+const extract_id_cate_mobile = (str) => str.replace(PRE_ID.cate_mobile, "");
 
 const id_active_filter = (id) => `${PRE_ID.active_filter}${id}`;
 const extract_id_active_filter = (str, id) => str.replace(PRE_ID.active_filter, "");
@@ -72,6 +76,11 @@ function extractQueryParams(str) {
 // utils
 
 //components
+
+function updateCheckStatusCategory(id, status) {
+    document.getElementById(id_cate_checkbox(id)).checked = status;
+}
+
 function filterActiveBadgeComponent(id, name, filter_name) {
     return `
         <div class="badge-wrapper">
@@ -107,6 +116,23 @@ function cateFilterItemComponent(id, name, image, filter_type_name) {
             <span>${name}</span>
         </label>
 `;
+}
+
+function FeatureFilterItemComponent({id, img, filter_name, title}) {
+    return `
+        <div id="${id_cate_mobile(id)}" class="filter-feature-item" onclick="mobileChooseFilter(this,'${id}','${filter_name}')">
+            <img src="${img}"/>
+            <p>${title}</p>
+        </div>
+    `
+}
+
+function BrandFilterItemComponent({id, filter_name, title}) {
+    return `
+        <div id="${id_cate_mobile(id)}" onclick="mobileChooseFilter(this,'${id}','${filter_name}')" class="filter-brand-item">
+            <span>${title}</span>
+        </div>
+    `
 }
 
 //logic
@@ -146,8 +172,9 @@ function fetchProducts(filter, changePage = false) {
             'product_type': product_type
         },
         success: function (data) {
+            scrollTopAfterFilter();
             console.log(data);
-            const {pageord, totalPage, products,limit,countResult} = data;
+            const {pageord, totalPage, products, limit, countResult} = data;
             renderProductsList(products);
 
             if (countResult === 0) {
@@ -161,7 +188,7 @@ function fetchProducts(filter, changePage = false) {
             handleHaveProduct();
 
 
-            renderCountResult(pageord,limit,countResult);
+            renderCountResult(pageord, limit, countResult);
         },
         error: function (errorThrown) {
             console.log("errorThrow", errorThrown.error);
@@ -170,11 +197,19 @@ function fetchProducts(filter, changePage = false) {
     })
 }
 
+function scrollTopAfterFilter() {
+    const Y = document.getElementById("nova-page-title").offsetTop;
+    console.log(Y);
+    window.scrollTo(0,Y);
+
+}
+
 function handleFilterProduct({changePage} = {changePage: false}) {
     console.log("handle filter produuct, filter_set", filter_set);
     if (changePage === false) {
         filter_set.pageord = 1;
-    };
+    }
+    ;
     const official_filter_set = {
         ...filter_set,
         gender: filter_set.gender.map(item => item.term_id),
@@ -192,15 +227,22 @@ function emptyFilter() {
 
     filter_set.brands.forEach(item => {
         document.getElementById(id_cate_checkbox(item.term_id)).checked = false;
+        updateMobileFeatureCheckStatus(item.term_id,false);
     })
     filter_set.shapes.forEach(item => {
         document.getElementById(id_cate_checkbox(item.term_id)).checked = false;
+        updateMobileFeatureCheckStatus(item.term_id,false);
+
     })
     filter_set.gender.forEach(item => {
         document.getElementById(id_cate_checkbox(item.term_id)).checked = false;
+        updateMobileFeatureCheckStatus(item.term_id,false);
+
     })
     filter_set.prices.forEach(item => {
         document.getElementById(id_cate_checkbox(item.term_id)).checked = false;
+        updateMobileFeatureCheckStatus(item.term_id,false);
+
     })
 
     filter_set = {
@@ -222,6 +264,7 @@ function removeFilterBadge(id, filter_name) {
 
     document.getElementById(id_cate_checkbox(id)).checked = false;
     document.getElementById(id_active_filter(id)).parentElement.remove();
+    updateMobileFeatureCheckStatus(id_cate_mobile(id),false)
     handleFilterProduct();
 }
 
@@ -280,17 +323,43 @@ function getCurrentFilterSetFromURL() {
 }
 
 function chooseFilter(element, id, filter_name) {
-
     let filter = filter_set[filter_name];
     if (element.checked) {
         addItemToArr(filter, id, filter_name);
+        updateMobileFeatureCheckStatus(id,true);
     } else {
-        removeItemFromArr(filter, id)
+        removeItemFromArr(filter, id);
+        updateMobileFeatureCheckStatus(id,false);
     }
     filter_set[filter_name] = filter;
     handleFilterProduct();
     updateFilterActiveBar();
+}
 
+function mobileChooseFilter(element, id, filter_name) {
+    let filter = filter_set[filter_name];
+
+    if (element.classList.contains("selected")) {
+        element.classList.remove("selected");
+        removeItemFromArr(filter, id, filter_name)
+        updateCheckStatusCategory(id, false);
+    } else {
+        element.classList.add("selected");
+        addItemToArr(filter, id, filter_name);
+        updateCheckStatusCategory(id, true);
+    }
+
+    filter_set[filter_name] = filter;
+    handleFilterProduct();
+    updateFilterActiveBar();
+}
+
+function updateMobileFeatureCheckStatus(id, status) {
+    if (status) {
+        document.getElementById(id_cate_mobile(id)).classList.add("selected");
+    } else {
+        document.getElementById(id_cate_mobile(id)).classList.remove("selected");
+    }
 }
 
 function renderFilterKinhMat() {
@@ -309,12 +378,17 @@ function renderFilterKinhMat() {
     });
     categories_information.brands_kinh_mat.forEach((item) => {
         brands_options += cateFilterItemComponent(item.term_id, item.name, null, 'brands');
-        mobile_filter_brands += BrandFilterItemComponent(item.name);
+        mobile_filter_brands += BrandFilterItemComponent({title: item.name, id: item.term_id, filter_name: 'brands'});
 
     });
     categories_information.shapes_kinh_mat.forEach((item) => {
         shapes_options += cateFilterItemComponent(item.term_id, item.name, item.image, 'shapes');
-        mobile_filter_feature += FeatureFilterItemComponent(item.image,item.name);
+        mobile_filter_feature += FeatureFilterItemComponent({
+            id: item.term_id,
+            filter_name: 'shapes',
+            img: item.image,
+            title: item.name
+        });
     });
 
     categories_information.price_ranges.forEach((item) => {
@@ -352,18 +426,20 @@ function handleUpdateFilterSetWhenLoadPage() {
     const simple_filter_set = getCurrentFilterSetFromURL();
     console.log("handle recheck", simple_filter_set);
 
-    // update simple_filter_set and check checkbox
+    // update simple_filter_set and check checkbox, check featuer in mobile
     simple_filter_set.gender.forEach(id => {
         document.getElementById(id_cate_checkbox(id)).checked = true;
         const item = categories_information.gender.find(cate => cate.term_id == id);
         filter_set.gender.push(item);
     })
     simple_filter_set.shapes.forEach(id => {
+        updateMobileFeatureCheckStatus(id,true);
         document.getElementById(id_cate_checkbox(id)).checked = true;
         const item = categories_information.shapes_kinh_mat.find(cate => cate.term_id == id);
         filter_set.shapes.push(item);
     })
     simple_filter_set.brands.forEach(id => {
+        updateMobileFeatureCheckStatus(id,true);
         document.getElementById(id_cate_checkbox(id)).checked = true;
         const item = categories_information.brands_kinh_mat.find(cate => cate.term_id == id);
         filter_set.brands.push(item);
@@ -378,7 +454,7 @@ function handleUpdateFilterSetWhenLoadPage() {
 
     console.log("update filter when reload page", filter_set);
 
-    document.getElementById(filter_set.order).selected=true;
+    document.getElementById(filter_set.order).selected = true;
 
     updateFilterActiveBar();
 
@@ -394,24 +470,24 @@ function handleRenderPagaination(page, pageSize, totalPage) {
             return res;
         })(),
         pageSize: pageSize,
-        pageNumber:page,
+        pageNumber: page,
         showPrevious: true,
         showNext: true,
         afterPageOnClick: (e) => {
             console.log("after page on click", e.currentTarget.getAttribute("data-num"));
             let chosenPage = e.currentTarget.getAttribute("data-num")
             filter_set.pageord = chosenPage;
-            handleFilterProduct({changePage:true});
+            handleFilterProduct({changePage: true});
         },
-        afterPreviousOnClick:()=> {
+        afterPreviousOnClick: () => {
             let selectedPage = jQuery('#nova-shop-product-pagination').pagination('getSelectedPageNum');
             filter_set.pageord = selectedPage;
-            handleFilterProduct({changePage:true});
+            handleFilterProduct({changePage: true});
         },
-        afterNextOnClick:()=> {
+        afterNextOnClick: () => {
             let selectedPage = jQuery('#nova-shop-product-pagination').pagination('getSelectedPageNum');
             filter_set.pageord = selectedPage;
-            handleFilterProduct({changePage:true});
+            handleFilterProduct({changePage: true});
         }
     })
 }
@@ -424,34 +500,34 @@ handleFetchProductsWhenLoadPage();
 
 function changeSort() {
     let select = document.getElementById("nova-sort-product");
-    filter_set.order=select.options[select.selectedIndex].value;
+    filter_set.order = select.options[select.selectedIndex].value;
     handleFilterProduct();
 }
 
 
-function renderCountResult(page,limit,totalProducts) {
-    if (totalProducts === 0 ) {
-        document.getElementById("title-result-count").innerText="";
+function renderCountResult(page, limit, totalProducts) {
+    if (totalProducts === 0) {
+        document.getElementById("title-result-count").innerText = "";
         return;
-    };
+    }
+    ;
     let pageord = parseInt(page);
-    let pageSize= parseInt(limit);
+    let pageSize = parseInt(limit);
     let total = parseInt(totalProducts);
 
-    let start = (pageSize*(pageord-1))+1;
-    let end = start + pageSize-1;
+    let start = (pageSize * (pageord - 1)) + 1;
+    let end = start + pageSize - 1;
 
     if (end > totalProducts) end = totalProducts;
 
 
-
     //render: Hiển thị 5-12 trên 127 kết quả
     let res = `Hiển thị ${start}-${end} trên ${total} kết quả`;
-    document.getElementById("title-result-count").innerText=res;
+    document.getElementById("title-result-count").innerText = res;
 }
 
 function handleNoProduct() {
-    document.getElementById("no-product-message-wrapper").innerHTML=`
+    document.getElementById("no-product-message-wrapper").innerHTML = `
         <div class="no-product-message">
            Rất tiếc, hiện tại chưa có sản phẩm nào phù hợp với yêu cầu của bạn
         </div>
@@ -462,6 +538,15 @@ function handleNoProduct() {
 }
 
 function handleHaveProduct() {
-    document.getElementById("no-product-message-wrapper").innerHTML=``;
+    document.getElementById("no-product-message-wrapper").innerHTML = ``;
 }
 
+function openFilterSideBar() {
+    document.getElementById("filter-sidebar").classList.add("open");
+    document.getElementById("overlay-filter-sidebar").classList.add("open");
+}
+
+function closeFilterSidebar() {
+    document.getElementById("filter-sidebar").classList.remove("open");
+    document.getElementById("overlay-filter-sidebar").classList.remove("open");
+}

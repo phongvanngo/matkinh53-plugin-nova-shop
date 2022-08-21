@@ -20,13 +20,14 @@ function CreatePageKinhMat()
 
         <div class="nova-mobile-filter">
             <div style="overflow:hidden">
-                <div id="filter-feature-wrapper" class="filter-feature-wrapper">
-                </div>
-            </div>
-            <div style="overflow:hidden">
                 <div id="filter-brands-wrapper" class="filter-feature-wrapper">
                 </div>
             </div>
+            <div style="overflow:hidden">
+                <div id="filter-feature-wrapper" class="filter-feature-wrapper">
+                </div>
+            </div>
+
         </div>
 
         <div id="overlay-filter-sidebar" onclick="closeFilterSidebar()">
@@ -99,7 +100,7 @@ function CreatePageKinhMat()
             </div>
             <div class="product-header-wrapper">
 
-                <h1 class="page-title">
+                <h1 id="nova-page-title" class="page-title">
                     KÍNH MÁT
                 </h1>
                 <div class="nova-sort-wrapper">

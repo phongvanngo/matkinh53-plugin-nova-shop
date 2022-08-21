@@ -178,6 +178,10 @@
     font-size:10px;
 }
 
+.filter-feature-item.selected {
+    border:1px solid #fc7e51;
+}
+
 .nova-mobile-filter .filter-feature-item img {
     width:60px;
     max-width:unset !important;
@@ -191,8 +195,10 @@
     flex-wrap:wrap;
     gap:5px;
     margin-bottom:10px;
-
 }
+
+
+
 /*.filter-brands-wrapper .filter-brand-item{*/
 /*    min-width:60px;*/
 /*    height:30px;*/
