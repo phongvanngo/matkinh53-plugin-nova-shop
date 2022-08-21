@@ -1,4 +1,4 @@
-function Fetch_filter() {
+function Fetch_filter(product_type="kinh-mat") {
     jQuery.ajax({
         // type : "post", //Phương thức truyền post hoặc get
         dataType: "json", //Dạng dữ liệu trả về xml, json, script, or html
@@ -7,6 +7,7 @@ function Fetch_filter() {
         data: {
             'action': 'GetCategory', // This is our PHP function below
             // 'novapo_filter': `${JSON.stringify(currentFilter)}`// This is the variable we are sending via AJAX
+            'product_type':product_type
         },
         success: function (data) {
             categories_information = data;
@@ -21,4 +22,4 @@ function Fetch_filter() {
     })
 };
 
-Fetch_filter();
+

@@ -134,6 +134,8 @@ function CreatePageKinhMat($productType="kinh-mat")
     <script src="<?php echo plugins_url('/js/filter_kinh_mat.js', __FILE__) ?>"></script>
     <script>
         product_type = "<?php echo $productType ?>";
+        Fetch_filter(product_type);
+        handleFetchProductsWhenLoadPage();
     </script>
 
     <?php

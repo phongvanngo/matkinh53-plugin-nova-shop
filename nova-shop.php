@@ -26,10 +26,10 @@ $novashop_env = array(
     'cate_id_features_trong_kinh' => 0,
 );
 
-add_shortcode('novashop_kinhmat', 'BuilPageKinhMat');
+add_shortcode('novashop', 'BuildProductPage');
 
-function BuilPageKinhMat() {
-    return CreatePageKinhMat();
+function BuildProductPage($atts) {
+    return CreatePageKinhMat($atts["type"]);
 };
 
 

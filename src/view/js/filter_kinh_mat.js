@@ -2,7 +2,7 @@ let gender = [];
 let shapes = [];
 let brands = [];
 
-let product_type = "kinh-mat";
+let product_type;
 
 var filter_set = {
     gender: [],
@@ -161,7 +161,7 @@ function addItemToArr(arr, value, filter_name) {
 
 function fetchProducts(filter, changePage = false) {
     const filter_set = filter;
-    console.log("fetch_products", filter_set);
+    console.log("fetch_products, fslefkjselk product_type", filter_set,product_type);
 
     jQuery.ajax({
         dataType: "json", //Dạng dữ liệu trả về xml, json, script, or html
@@ -380,12 +380,12 @@ function renderFilterKinhMat() {
     categories_information.gender.forEach((item) => {
         gender_options += cateFilterItemComponent(item.term_id, item.name, null, 'gender');
     });
-    categories_information.brands_kinh_mat.forEach((item) => {
+    categories_information.brands.forEach((item) => {
         brands_options += cateFilterItemComponent(item.term_id, item.name, null, 'brands');
         mobile_filter_brands += BrandFilterItemComponent({title: item.name, id: item.term_id, filter_name: 'brands'});
 
     });
-    categories_information.shapes_kinh_mat.forEach((item) => {
+    categories_information.features.forEach((item) => {
         shapes_options += cateFilterItemComponent(item.term_id, item.name, item.image, 'shapes');
         mobile_filter_feature += FeatureFilterItemComponent({
             id: item.term_id,
@@ -439,13 +439,13 @@ function handleUpdateFilterSetWhenLoadPage() {
     simple_filter_set.shapes.forEach(id => {
         updateMobileFeatureCheckStatus(id, true);
         document.getElementById(id_cate_checkbox(id)).checked = true;
-        const item = categories_information.shapes_kinh_mat.find(cate => cate.term_id == id);
+        const item = categories_information.features.find(cate => cate.term_id == id);
         filter_set.shapes.push(item);
     })
     simple_filter_set.brands.forEach(id => {
         updateMobileFeatureCheckStatus(id, true);
         document.getElementById(id_cate_checkbox(id)).checked = true;
-        const item = categories_information.brands_kinh_mat.find(cate => cate.term_id == id);
+        const item = categories_information.brands.find(cate => cate.term_id == id);
         filter_set.brands.push(item);
     })
     simple_filter_set.prices.forEach(id => {
@@ -500,7 +500,7 @@ addEventToToggleFilterBox();
 
 // handleRenderPagaination(1,filter_set.limit,10)
 
-handleFetchProductsWhenLoadPage();
+
 
 function changeSort() {
     let select = document.getElementById("nova-sort-product");
