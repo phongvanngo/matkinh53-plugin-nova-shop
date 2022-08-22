@@ -212,30 +212,46 @@ margin-right:10px
     .nova-products .filter-wrapper {
         position: fixed;
         top: 0px;
+        left:0px;
         background: white;
         z-index: 2000;
-        width: 100vw;
-        max-height: 100vh;
+        padding:0px;
+        min-width: 100vw;
         min-height:100vh;
-        overflow-y: scroll;
-        max-width: 80vw;
-        transform: translateX(-85vw);
+        transform: translateX(100vw);
         transition:all ease-in-out 0.2s;
     }
+    .filter-wrapper .filter-section {
+        height:calc(100vh - 60px);
+        width:100%;
+        padding:20px 20px 0px 10px;
+        overflow-y: scroll;
+    }
+
+    .filter-wrapper .apply-filter-section {
+        height:60px;
+        width:100%;
+        box-shadow: 1px 1px 1px 1px gainsboro;
+        padding:10px;
+    }
+    .filter-wrapper .apply-filter-section .btn-apply-filter {
+        background:#fc7e51;
+        display:flex;
+        align-items: center;
+        justify-content: center;
+        color:white;
+        border-radius:10px;
+
+        font-weight:bold;
+        font-size:15px;
+        height:100%;
+        width:100%;
+    }
+
+
     .nova-products .filter-wrapper.open {
         transform: translateX(0vw);
         transition:all ease-in-out 0.2s;
-    }
-    #overlay-filter-sidebar.open {
-        display:block;
-        width: 100vw;
-        height: 100vh;
-        background: rgba(220, 220, 220, 0.49);
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 1000;
-        border-left:100px solid white;
     }
 
     .btn-open-filter {
@@ -252,9 +268,7 @@ margin-right:10px
     .btn-open-filter svg {
         width:25px;
     }
-    .btn-close-filter-sidebar svg {
-        width:100%;
-    }
+
     .btn-close-filter-sidebar {
         position:absolute;
         right:0px;
@@ -268,6 +282,10 @@ margin-right:10px
         background:#fc7e51;
         padding:5px;
     }
+
+    .for-mobile {
+        display:block !important;
+    }
 }
 
 .btn-open-filter {
@@ -275,5 +293,9 @@ margin-right:10px
 }
 
 #overlay-filter-sidebar {
+    display:none;
+}
+
+.for-mobile {
     display:none;
 }

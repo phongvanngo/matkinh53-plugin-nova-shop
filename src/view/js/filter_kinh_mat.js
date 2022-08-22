@@ -4,6 +4,7 @@ let brands = [];
 
 let product_type;
 
+
 var filter_set = {
     gender: [],
     shapes: [],
@@ -13,6 +14,9 @@ var filter_set = {
     limit: 12,
     order: "none"
 }
+
+// custom css config
+let hide_title_feature_filter_item ;
 
 // utils -----------------------
 const PRE_ID = {
@@ -122,7 +126,7 @@ function FeatureFilterItemComponent({id, img, filter_name, title}) {
     return `
         <div id="${id_cate_mobile(id)}" class="filter-feature-item" onclick="mobileChooseFilter(this,'${id}','${filter_name}')">
             <img src="${img}"/>
-            <p>${title}</p>
+            ${hide_title_feature_filter_item ? "" : `<p class='feature-item'>${title}</p>`}
         </div>
     `
 }
@@ -161,7 +165,7 @@ function addItemToArr(arr, value, filter_name) {
 
 function fetchProducts(filter, changePage = false) {
     const filter_set = filter;
-    console.log("fetch_products, fslefkjselk product_type", filter_set,product_type);
+    console.log("fetch_products, fslefkjselk product_type", filter_set, product_type);
 
     jQuery.ajax({
         dataType: "json", //Dạng dữ liệu trả về xml, json, script, or html
@@ -400,8 +404,8 @@ function renderFilterKinhMat() {
     });
 
     //handle error css scrolling in phone
-    mobile_filter_brands+=`<div style="min-width:50px;color:white">&nbsp;</div>`;
-    mobile_filter_feature+=`<div style="min-width:50px;color:white">&nbsp;</div>`;
+    mobile_filter_brands += `<div style="min-width:50px;color:white">&nbsp;</div>`;
+    mobile_filter_feature += `<div style="min-width:50px;color:white">&nbsp;</div>`;
 
     document.getElementById("filter-shapes").innerHTML = shapes_options;
     document.getElementById("filter-brands").innerHTML = brands_options;
@@ -503,7 +507,6 @@ function handleRenderPagaination(page, pageSize, totalPage) {
 addEventToToggleFilterBox();
 
 // handleRenderPagaination(1,filter_set.limit,10)
-
 
 
 function changeSort() {

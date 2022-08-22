@@ -1,20 +1,24 @@
 <?php
 
-function CreatePageKinhMat($productType="kinh-mat")
+function CreatePageKinhMat($productType = "kinh-mat")
 {
     $pageTitle = "";
     $features_label = "DÁNG KÍNH";
 
-    switch($productType) {
+    $hide_title_feature_filter_item = false;
+
+    switch ($productType) {
         case "kinh-mat":
-            $pageTitle="KÍNH MÁT";
+            $pageTitle = "KÍNH MÁT";
             break;
         case "trong-kinh":
-            $pageTitle="TRÒNG KÍNH";
-            $features_label="CHỨC NĂNG TRÒNG";
+            $hide_title_feature_filter_item = true;
+            $pageTitle = "TRÒNG KÍNH";
+            $features_label = "CHỨC NĂNG TRÒNG";
             break;
         case "gong-kinh":
-            $pageTitle="GỌNG KÍNH";
+
+            $pageTitle = "GỌNG KÍNH";
             break;
     }
 
@@ -46,61 +50,67 @@ function CreatePageKinhMat($productType="kinh-mat")
 
         </div>
 
-        <div id="overlay-filter-sidebar" onclick="closeFilterSidebar()">
-            <div class="btn-close-filter-sidebar">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd"
-                          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                          clip-rule="evenodd"/>
-                </svg>
-            </div>
-        </div>
+        <!--        <div id="overlay-filter-sidebar" onclick="closeFilterSidebar()">-->
+        <!--            <div class="btn-close-filter-sidebar">-->
+        <!--                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">-->
+        <!--                    <path fill-rule="evenodd"-->
+        <!--                          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"-->
+        <!--                          clip-rule="evenodd"/>-->
+        <!--                </svg>-->
+        <!--            </div>-->
+        <!--        </div>-->
         <div id="filter-sidebar" class="filter-wrapper ">
-            <div id="nova-active-filter-bar" class="active-filter-bar-wrapper"></div>
-            <button onclick="emptyFilter()" id="btn-clear-filter" class="btn-clear-filter">
-                BỎ CHỌN TẤT CẢ
-            </button>
-            <div class="filter-box open">
-                <div class="filter-box-title">
-                    <h3>GIÁ</h3>
-                    <span class="plus">+</span>
-                    <span class="minus">-</span>
-                </div>
-                <div id="filter-price-range" class="filter-box-list">
+            <div class="filter-section">
+                <div id="nova-active-filter-bar" class="active-filter-bar-wrapper"></div>
+                <button onclick="emptyFilter()" id="btn-clear-filter" class="btn-clear-filter">
+                    BỎ CHỌN TẤT CẢ
+                </button>
+                <div class="filter-box open">
+                    <div class="filter-box-title">
+                        <h3>GIÁ</h3>
+                        <span class="plus">+</span>
+                        <span class="minus">-</span>
+                    </div>
+                    <div id="filter-price-range" class="filter-box-list">
 
+                    </div>
+                </div>
+                <div class="filter-box open">
+                    <div class="filter-box-title">
+                        <h3>THƯƠNG HIỆU</h3>
+                        <span class="plus">+</span>
+                        <span class="minus">-</span>
+                    </div>
+                    <div id="filter-brands" class="filter-box-list">
+
+                    </div>
+                </div>
+                <div class="filter-box open">
+                    <div class="filter-box-title">
+                        <h3> <?php echo $features_label ?> </h3>
+                        <span class="plus">+</span>
+                        <span class="minus">-</span>
+                    </div>
+                    <div id="filter-shapes" class="filter-box-list">
+
+                    </div>
+                </div>
+                <div id="filter-gender-wrapper" class="filter-box open">
+                    <div class="filter-box-title">
+                        <h3>GIỚI TÍNH</h3>
+                        <span class="plus">+</span>
+                        <span class="minus">-</span>
+                    </div>
+                    <div id="filter-gender" class="filter-box-list">
+
+                    </div>
                 </div>
             </div>
-            <div class="filter-box open">
-                <div class="filter-box-title">
-                    <h3>THƯƠNG HIỆU</h3>
-                    <span class="plus">+</span>
-                    <span class="minus">-</span>
-                </div>
-                <div id="filter-brands" class="filter-box-list">
-
+            <div class="apply-filter-section">
+                <div class="btn-apply-filter" onclick="closeFilterSidebar()">
+                    TÌM KIẾM
                 </div>
             </div>
-            <div class="filter-box open">
-                <div class="filter-box-title">
-                    <h3> <?php echo $features_label ?> </h3>
-                    <span class="plus">+</span>
-                    <span class="minus">-</span>
-                </div>
-                <div id="filter-shapes" class="filter-box-list">
-
-                </div>
-            </div>
-            <div id="filter-gender-wrapper" class="filter-box open">
-                <div class="filter-box-title">
-                    <h3>GIỚI TÍNH</h3>
-                    <span class="plus">+</span>
-                    <span class="minus">-</span>
-                </div>
-                <div id="filter-gender" class="filter-box-list">
-
-                </div>
-            </div>
-
         </div>
         <div class="products-wrapper">
             <div class="mobile-filter-action">
@@ -151,6 +161,7 @@ function CreatePageKinhMat($productType="kinh-mat")
     <script src="<?php echo plugins_url('/js/filter_kinh_mat.js', __FILE__) ?>"></script>
     <script>
         product_type = "<?php echo $productType ?>";
+        hide_title_feature_filter_item = "<?php echo $hide_title_feature_filter_item ?>";
         Fetch_filter(product_type);
         handleFetchProductsWhenLoadPage();
     </script>
