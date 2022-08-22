@@ -60,14 +60,6 @@ function CreatePageKinhMat($productType = "kinh-mat")
         <!--            </div>-->
         <!--        </div>-->
         <div id="filter-sidebar" class="filter-wrapper ">
-            <div class="for-mobile mobile-filter-header">
-                <div class="filter-title">BỘ LỌC SẢN PHẨM</div>
-                <div class="btn-close" onclick="closeFilterSidebar()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                    </svg>
-                </div>
-            </div>
             <div class="filter-section">
                 <div id="nova-active-filter-bar" class="active-filter-bar-wrapper"></div>
                 <button onclick="emptyFilter()" id="btn-clear-filter" class="btn-clear-filter">
@@ -83,7 +75,7 @@ function CreatePageKinhMat($productType = "kinh-mat")
 
                     </div>
                 </div>
-                <div  class="filter-box open">
+                <div class="filter-box open">
                     <div class="filter-box-title">
                         <h3>THƯƠNG HIỆU</h3>
                         <span class="plus">+</span>
@@ -115,7 +107,7 @@ function CreatePageKinhMat($productType = "kinh-mat")
                 </div>
             </div>
             <div class="apply-filter-section">
-                <div class="btn-apply-filter for-mobile" onclick="closeFilterSidebar()">
+                <div class="btn-apply-filter" onclick="closeFilterSidebar()">
                     TÌM KIẾM
                 </div>
             </div>

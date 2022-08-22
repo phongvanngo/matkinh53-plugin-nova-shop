@@ -554,8 +554,10 @@ function handleHaveProduct() {
 
 function openFilterSideBar() {
     document.getElementById("filter-sidebar").classList.add("open");
+    document.getElementById("overlay-filter-sidebar").classList.add("open");
 }
 
 function closeFilterSidebar() {
     document.getElementById("filter-sidebar").classList.remove("open");
+    document.getElementById("overlay-filter-sidebar").classList.remove("open");
 }

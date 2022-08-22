@@ -214,7 +214,7 @@ margin-right:10px
         top: 0px;
         left:0px;
         background: white;
-        z-index: 200000;
+        z-index: 100000000000;
         padding:0px;
         min-width: 100vw;
         min-height:100vh;
@@ -222,28 +222,28 @@ margin-right:10px
         transition:all ease-in-out 0.2s;
     }
     .filter-wrapper .filter-section {
-        height:calc(100vh - 160px);
+        height:calc(100vh - 60px);
         width:100%;
         padding:20px 20px 0px 10px;
         overflow-y: scroll;
     }
 
     .filter-wrapper .apply-filter-section {
-        height:110px;
+        height:60px;
         width:100%;
         box-shadow: 1px 1px 1px 1px gainsboro;
-        padding:25px;
+        padding:10px;
     }
     .filter-wrapper .apply-filter-section .btn-apply-filter {
         background:#fc7e51;
-        display:flex !important;
+        display:flex;
         align-items: center;
         justify-content: center;
         color:white;
-        border-radius:15px;
+        border-radius:10px;
 
         font-weight:bold;
-        font-size:20px;
+        font-size:15px;
         height:100%;
         width:100%;
     }
@@ -256,12 +256,12 @@ margin-right:10px
 
     .btn-open-filter {
         display: flex !important;
-        padding: 15px;
+        padding: 5px;
         background: #eee;
         border-radius: 10px;
         margin: 20px 0px;
+        text-align: center;
         justify-content: center;
-        align-items:center;
         cursor: pointer;
         gap: 10px;
     }
@@ -284,29 +284,7 @@ margin-right:10px
     }
 
     .for-mobile {
-        display:unset !important;
-    }
-
-    .mobile-filter-header {
-        padding: 0 16px;
-        height:50px;
-        display:flex !important;
-        align-items:center;
-        justify-content:space-between;
-        box-shadow: 1px 1px 1px 1px gainsboro;
-    }
-    .mobile-filter-header .filter-title {
-        font-weight:bold;
-        font-size:15px;
-    }
-    .mobile-filter-header .btn-close {
-        color:#fc7e51;
-        transform: translateY(5px);
-    }
-
-    #filter-price-range,#filter-brands,#filter-shapes,#filter-gender {
-        display: grid;
-        grid-template-columns: auto auto;
+        display:block !important;
     }
 }
 
