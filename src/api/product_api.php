@@ -267,6 +267,13 @@ function formatWooProducts($products)
         $item->image = $product->get_image();
         $item->gallery_image_ids = $product->get_gallery_image_ids();
 
+        $images = array();
+        foreach( $product->get_gallery_image_ids() as $attachment_id ) {
+             $image_link = wp_get_attachment_url( $attachment_id );
+             array_push($images,$image_link);
+        }
+        $item->gallery = $images;
+
 // Get Product Reviews
 
 //        $item->field=$product->get_reviews_allowed();

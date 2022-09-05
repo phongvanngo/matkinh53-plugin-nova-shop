@@ -1,0 +1,334 @@
+.products-list-area {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    row-gap: 25px;
+    column-gap: 15px;
+    /*background: rgba(204, 200, 200, 0.17);*/
+}
+
+.products-list-area .product-card-wrapper {
+    box-shadow: 1px 1px 12px 1px rgba(220, 220, 220, 0.42);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.products-list-area .product-image {
+    max-width: 400px;
+    position: relative;
+}
+
+.products-list-area .product-info-wrapper {
+    padding: 15px 15px 15px 15px;
+    background: white;
+
+}
+
+.products-list-area .product-title {
+    color: black;
+    margin-bottom: 5px;
+    font-size: 15px;
+    overflow: hidden;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+}
+
+.products-list-area .product-title:hover {
+    color: #26a8d5;
+}
+
+.products-list-area .product-price-area {
+    display: flex;
+    justify-content: space-between;
+    color: #e83925;
+    margin-bottom: 15px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+
+.products-list-area .product-price-area del {
+    color: #696161;
+    font-weight: normal;
+}
+
+.products-list-area .action-wrapper {
+    display: flex;
+    /*grid-template-columns:50% 50%;*/
+    gap: 10px;
+}
+
+.products-list-area .see-more-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+
+.products-list-area .btn-see-more {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.products-list-area .btn-see-more button, .btn-add-to-cart button {
+    width: 100%;
+    text-align: center;
+    font-size: 15px;
+    transition: all ease-in-out 0.3s;
+    border-radius: 10px;
+    font-weight: normal;
+    margin: auto;
+    text-transform: unset !important;
+}
+
+.products-list-area .btn-add-to-cart button {
+    background: black;
+    color: white;
+}
+
+.products-list-area .btn-see-more button {
+    background: #c8cdd0;
+    color: black;
+}
+
+.products-list-area .btn-see-more button:hover {
+    background: #26a8d5;
+    color: white;
+}
+
+.products-list-area .btn-add-to-cart button:hover {
+    background: #26a8d5;
+
+}
+
+.products-list-area .badge-sale {
+    font-size: 13px;
+    width: max-content;
+    padding: 2px 5px;
+    color: white;
+    background: #fc7e51;
+    border-radius: 5px;
+    margin-bottom: 10px;
+
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+
+@media screen and (min-width: 48rem) {
+    .products-list-area {
+        padding-left: 10px;
+    }
+
+
+}
+
+@media screen and (max-width: 48rem) {
+    .products-list-area .product-price-area {
+        font-size: 13px !important;
+    }
+
+    .image-list li {
+        width: 30px;
+    }
+
+
+    .image-list li.active {
+        width: 45px;
+    }
+
+    .products-list-area .product-title {
+        font-size: 13px !important;
+    }
+
+    .products-list-area a button {
+        font-size: 13px !important;
+    }
+
+    .products-list-area .badge-sale {
+        font-size: 13px !important;
+    }
+
+    .nova-mobile-filter {
+        display: block !important;
+    }
+
+    .nova-products {
+        display: block
+    }
+
+    .badge-sale-image img {
+        width: 50px !important;
+    }
+
+    .badge-sale-image .discount {
+        font-size: 10px !important;
+        top: 1px !important;
+        left: 17px !important;
+    }
+
+    .product-price-area .main-price {
+        background: #e83925;
+        color: white;
+        padding: 1px 5px;
+        border-radius: 5px;
+        font-weight: normal;
+
+    }
+}
+
+.nova-mobile-filter {
+    display: none;
+}
+
+.nova-mobile-filter .filter-feature-wrapper {
+    display: flex;
+    gap: 10px;
+    width: 100vw;
+    overflow-x: scroll;
+    flex-wrap: nowrap;
+    margin-bottom: 5px;
+    padding: 5px 5px 5px 25px;
+    scroll-behavior: smooth;
+
+}
+
+.filter-feature-container .arrow-icon {
+    width: 30px;
+    rgba(255, 255, 255, 0) 100 %);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    background: rgba(133, 120, 120, 0.44);
+}
+
+.arrow-icon.btn-left {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    background: rgb(255,255,255);
+    background: linear-gradient(90deg, rgba(255,255,255,1) 24%, rgba(255,255,255,0) 100%);
+}
+
+.arrow-icon.btn-right {
+    position: absolute;
+    top: 0px;
+    right: 0;
+    background: rgb(255,255,255);
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 24%);
+}
+
+.nova-mobile-filter .filter-feature-container {
+    align-items: center;
+    position: relative;
+}
+
+.nova-mobile-filter .filter-feature-item {
+    padding: 5px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+    box-shadow: 1px 1px 12px 1px rgba(220, 220, 220, 0.42);
+    text-align: center;
+    font-size: 10px;
+}
+
+.filter-feature-item.selected {
+    border: 1px solid #fc7e51;
+}
+
+.nova-mobile-filter .filter-feature-item img {
+    width: 90px;
+    max-width: unset !important;
+}
+
+.nova-mobile-filter .filter-feature-item p {
+    margin: 0px;
+}
+
+.filter-brands-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.badge-sale-image img {
+    width: 70px;
+}
+
+.badge-sale-image .discount {
+    position: absolute;
+    top: 0px;
+    left: 25px;
+    color: white;
+    font-size: 14px;
+}
+
+.badge-sale-image {
+    position: absolute;
+    top: 7px;
+    right: 10px;
+}
+
+
+/*.filter-brands-wrapper .filter-brand-item{*/
+/*    min-width:60px;*/
+/*    height:30px;*/
+/*    padding:5px;*/
+/*    border:1px solid black;*/
+/*    border-radius:5px;*/
+/*    display:flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    align-text:center;*/
+/*    font-size:13px;*/
+/*    box-shadow: 1px 1px 12px 1px rgba(220, 220, 220, 0.42);*/
+/*}*/
+
+/*.filter-brands-wrapper .filter-brand-item.active{*/
+/*    border-color:#fc7e51;*/
+
+/*}*/
+
+.nova-card-gallery-wrapper .image-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+
+}
+
+.pr-card-wrapper {
+    height: 100%;
+    width:auto;
+}
+
+.pr-card-wrapper img {
+    max-height: 100%;
+}
+
+ul.image-list {
+    margin: 5px 2px 2px 0px;
+}
+
+.image-list li {
+    list-style-type: none;
+    width: 40px;
+    border: 1px solid gainsboro;
+    overflow: hidden;
+    transition: all ease-in-out 0.2s;
+}
+
+
+.image-list li.active {
+    border: 1px solid #fc7e51 !important;
+    transition: all ease-in-out 0.2s;
+    width: 60px;
+}
+

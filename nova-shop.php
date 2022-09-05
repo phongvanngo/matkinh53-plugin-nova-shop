@@ -12,6 +12,7 @@ Version: 1.2.0
 
 require __DIR__ . '/src/api/product_api.php';
 require __DIR__ . '/src/view/view.php';
+require __DIR__ . '/src/product_detail/product_single.php';
 
 $novashop_env = array(
     'cate_id_trong_kinh' => 0,
@@ -31,5 +32,11 @@ add_shortcode('novashop', 'BuildProductPage');
 function BuildProductPage($atts) {
     return CreatePageKinhMat($atts["type"]);
 };
+
+add_shortcode("novashop_product_single_page", 'BuildProductDetailPage');
+
+function BuilProductDetailPage() {
+    return BuildProductSinglePage();
+}
 
 //add feature price range products

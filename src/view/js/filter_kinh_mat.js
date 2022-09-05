@@ -11,7 +11,7 @@ var filter_set = {
     brands: [],
     prices: [], // price-ranges
     pageord: 1,
-    limit: 12,
+    limit: 15,
     order: "none"
 }
 
@@ -138,6 +138,13 @@ function BrandFilterItemComponent({id, filter_name, title}) {
         </div>
     `
 }
+function BrandFilterItemComponent_haveImage({id, filter_name, title,image}) {
+    return `
+        <div id="${id_cate_mobile(id)}" onclick="mobileChooseFilter(this,'${id}','${filter_name}')" class="filter-feature-item mobile-filter-brand">
+            <img src="${image}"/>
+        </div>
+    `
+}
 
 //logic
 
@@ -176,8 +183,7 @@ function fetchProducts(filter, changePage = false) {
             'product_type': product_type
         },
         success: function (data) {
-            scrollTopAfterFilter();
-            console.log(data);
+
             const {pageord, totalPage, products, limit, countResult} = data;
             renderProductsList(products);
 
@@ -202,7 +208,7 @@ function fetchProducts(filter, changePage = false) {
 }
 
 function scrollTopAfterFilter() {
-    const Y = document.getElementById("nova-page-title").offsetTop;
+    const Y = document.getElementById("nova-mark").offsetTop;
     console.log(Y);
     window.scrollTo(0, Y);
 
@@ -340,6 +346,9 @@ function chooseFilter(element, id, filter_name) {
     updateFilterActiveBar();
 }
 
+//script handle allow chose one option
+let filter_selected_set = {};
+
 function mobileChooseFilter(element, id, filter_name) {
     let filter = filter_set[filter_name];
 
@@ -356,6 +365,7 @@ function mobileChooseFilter(element, id, filter_name) {
     filter_set[filter_name] = filter;
     handleFilterProduct();
     updateFilterActiveBar();
+    scrollTopAfterFilter();
 }
 
 function updateMobileFeatureCheckStatus(id, status) {
@@ -386,7 +396,8 @@ function renderFilterKinhMat() {
     });
     categories_information.brands.forEach((item) => {
         brands_options += cateFilterItemComponent(item.term_id, item.name, null, 'brands');
-        mobile_filter_brands += BrandFilterItemComponent({title: item.name, id: item.term_id, filter_name: 'brands'});
+        // mobile_filter_brands += BrandFilterItemComponent({title: item.name, id: item.term_id, filter_name: 'brands'});
+        mobile_filter_brands += BrandFilterItemComponent_haveImage({image:item.image, title: item.name, id: item.term_id, filter_name: 'brands'});
 
     });
     categories_information.features.forEach((item) => {
@@ -482,6 +493,7 @@ function handleRenderPagaination(page, pageSize, totalPage) {
             return res;
         })(),
         pageSize: pageSize,
+        pageRange:1,
         pageNumber: page,
         showPrevious: true,
         showNext: true,
@@ -490,6 +502,7 @@ function handleRenderPagaination(page, pageSize, totalPage) {
             let chosenPage = e.currentTarget.getAttribute("data-num")
             filter_set.pageord = chosenPage;
             handleFilterProduct({changePage: true});
+            scrollTopAfterFilter();
         },
         afterPreviousOnClick: () => {
             let selectedPage = jQuery('#nova-shop-product-pagination').pagination('getSelectedPageNum');
@@ -541,7 +554,13 @@ function handleNoProduct() {
     document.getElementById("no-product-message-wrapper").innerHTML = `
         <div class="no-product-message">
            Rất tiếc, hiện tại chưa có sản phẩm nào phù hợp với yêu cầu của bạn
-        </div>
+        
+          <div class="for-mobile no-product-action-wrapper">
+            <div class="btn-filter-come-back" onclick="emptyFilter()">XEM CÁC SẢN PHẨM KHÁC</div>
+            <p> - Hoặc - </p>
+            <div class="btn-filter-continue" onclick="openFilterSideBar();" >SỬ DỤNG BỘ LỌC</div>
+         </div>
+</div>
     `;
 
     document.querySelector('#nova-shop-product-pagination').innerHTML = "";
@@ -558,4 +577,5 @@ function openFilterSideBar() {
 
 function closeFilterSidebar() {
     document.getElementById("filter-sidebar").classList.remove("open");
+    scrollTopAfterFilter();
 }
